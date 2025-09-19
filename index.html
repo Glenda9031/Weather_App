@@ -3,42 +3,89 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- displays site properly based on user's device -->
-
   <link rel="icon" type="image/png" sizes="32x32" href="./assets/images/favicon-32x32.png">
-  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,200..800
+  &family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
   <title>Frontend Mentor | Weather app</title>
-
-  <!-- Feel free to remove these styles or customise in your own stylesheet 👍 -->
-  <style>
-    .attribution { font-size: 11px; text-align: center; }
-    .attribution a { color: hsl(228, 45%, 44%); }
-  </style>
 </head>
 <body>
+  <div id="app">
+    <header class="header">
+      <div class="container">
+        <div class="header-content">
+          <div class="logo">
+            <img src="./assets/images/logo.svg" alt="Weather app logo">
+          </div>
+          <div class="units-toggle">
+            <button class="units-button" id="unitsButton">
+              <img src="./assets/images/icon-units.svg" alt="Units icon" class="icon">
+              <span>Units</span>
+              <img src="./assets/images/icon-dropdown.svg" alt="Dropdown icon" class="icon dropdown-arrow">
+            </button>
+            <div class="units-dropdown" id="unitsDropdown">
+              <div class="units-content">
+                <div class="unit-section">
+                  <button class="unit-btn">Switch to Imperial/Metric</button>
+                </div>
+                <div class="unit-section">
+                  <div class="unit-label">Temperature</div>
+                  <div class="unit-buttons">
+                    <button class="unit-btn active" data-unit="celsius">Celsius (°C)</button>
+                    <button class="unit-btn" data-unit="fahrenheit">Fahrenheit (°F)</button>
+                  </div>
+                </div>
+                <div class="unit-section">
+                  <div class="unit-label">Wind Speed</div>
+                  <div class="unit-buttons">
+                    <button class="unit-btn active" data-unit="kmh">km/h</button>
+                    <button class="unit-btn" data-unit="mph">mph</button>
+                  </div>
+                </div>
+                <div class="unit-section">
+                  <div class="unit-label">Precipitation</div>
+                  <div class="unit-buttons">
+                    <button class="unit-btn active" data-unit="mm">Millimeters (mm)</button>
+                    <button class="unit-btn" data-unit="in">Inches (in)</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </header>
 
-  Units
+    <main class="main">
+      <div class="container">
+        <div class="title-section">
+          <h2 class="main-title">How's the sky looking today?</h2>
+        </div>
 
-  Switch to Imperial/Metric
+        <div class="search-section">
+          <form action="" class="search-form" id="searchForm">
+            <div class="search-input-container">
+              <div class="search-icon">
+                <img src="./assets/images/icon-search.svg" alt="search image">
+              </div>
+              <input type="text" class="search-input" id="searchInput" placeholder="Search for a place..." autocomplete="off">
+              <button type="submit" class="search-button" id="searchButton">
+                <span class="search-text">Search</span>
+                <span class="loading-text" style="display: none;">Searching...</span>
+              </button>  
+            </div>
+            <div class="suggestions" id="suggestions"></div>
+          </form>
+        </div>
 
-  Temperature
+        
+      </div>
+    </main>
+  </div>
 
-  Celsius (°C)
-  Fahrenheit (°F)
-
-  Wind Speed
-
-  km/h
-  mph
-
-  Precipitation
-
-  Millimeters (mm)
-  Inches (in)
-
-  How's the sky looking today?
-
-  Search for a city, e.g., New York
-  Search
+  
 
   Feels like
   <!-- Insert temperature here -->
@@ -57,10 +104,6 @@
 
   Hourly forecast
   <!-- Insert hourly forecast for the selected day here -->
-
-  <div class="attribution">
-    Challenge by <a href="https://www.frontendmentor.io?ref=challenge">Frontend Mentor</a>. 
-    Coded by <a href="#">Your Name Here</a>.
-  </div>
+  <script src="script.js"></script>
 </body>
 </html>
