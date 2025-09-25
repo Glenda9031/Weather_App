@@ -244,6 +244,68 @@ body {
     margin: 0 auto 2rem;
 }
 
+.search-form {
+    position: relative;
+}
+
+.search-input-container {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.search-icon {
+    position: absolute;
+    left: 1rem;
+    color: var(--muted-foreground);
+    z-index: 2;
+    top: 1.1rem;
+}
+
+.search-input {
+    width: 100%;
+    padding: 1rem 1rem 1rem 3rem;
+    background-color: var(--card);
+    border: .125rem solid var(--border);
+    border-radius: 1rem;
+    color: var(--foreground);
+    transition: var(--transition);
+}
+
+.search-input:focus {
+    outline: none;
+    border-color: var(--primary);
+    box-shadow: 0 0 0 .1875rem hsla(233, 67%, 56%, 0.1);
+}
+
+.search-input::placeholder {
+    color: var(--muted-foreground);
+}
+
+.search-button {
+    position: absolute;
+    right: 0.5rem;
+    top: 0.5rem;
+    bottom: 0.5rem;
+    padding: 0 1.5rem;
+    background-color: var(--primary);
+    color: var(--primary-foreground);
+    border: none;
+    border-radius: 0.5rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.search-button:hover(not)(:disabled) {
+    background-color: var(--blue-700);
+}
+
+.search-button:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
 
 
 
