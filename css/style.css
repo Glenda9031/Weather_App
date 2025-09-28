@@ -306,9 +306,136 @@ body {
     cursor: not-allowed;
 }
 
+.suggestions {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    margin-top: 0.5rem;
+    background-color: var(--card);
+    border: .0625rem solid var(--border);
+    border-radius: 0.75rem;
+    box-shadow: var(--shadow-lg);
+    z-index: 10;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-0.5rem);
+    transition: var(--transition);
+}
 
+.suggestions.show {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
 
+.suggestion-item {
+    padding: 0.75rem 1rem;
+    cursor: pointer;
+    border-bottom: .0625rem solid var(--border);
+    transition: var(--transition);
+}
 
+.suggestion-item:hover {
+    background-color: var(--secondary);
+}
+
+.suggestion-item:last-child {
+    border-bottom: none;
+    border-radius: 0 0 0.75rem 0.75rem;
+}
+
+.suggestion-item:first-child {
+    border-radius: 0.75rem 0.75rem 0 0;
+}
+
+.suggestion-name {
+    font-size: 0.875rem;
+    color: var(--muted-foreground);
+}
+
+.suggestion-detail {
+    font-size: 0.875rem;
+    color: var(--muted-foreground);
+}
+
+/* ERROR SECTION */
+.error-message {
+    text-align: center;
+    color: hsl(0, 100%, 67%);
+    font-size: 1.125rem;
+    margin-bottom: 2rem;
+}
+
+/* WEATHER SECTION */
+.weather-content {
+    margin-top: 2rem;
+}
+
+.weather-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2rem;
+}
+
+@media (width >= 64rem) {
+    .weather-grid {
+        grid-template-columns: 2fr, 1fr;
+    }
+}
+
+.weather-left {
+   display: flex;
+   flex-direction: column;
+   gap: 1.5rem;
+}
+
+/* CURRENT WEATHER SECTION */
+.current-weather {
+   background: var(--gradient-primary);
+   border-radius: 1rem;
+   padding: 2rem;
+   color: var(--neutral-0);
+   position: relative;
+   overflow: hidden;
+}
+
+.weather-bg-decoration {
+   position: absolute;
+   top: -4rem;
+   right: -4rem;
+   width: 8rem;
+   height: 8rem;
+   background: hsla(0, 0%, 100%, 0.1);
+   border-radius: 50%;
+ }
+
+ .weather-bg-decoration-2 {
+   position: absolute;
+   bottom: -3rem;
+   left: -3rem;
+   width: 6rem;
+   height: 6rem;
+   background: hsla(0, 0%, 100%, 0.1);
+   border-radius: 50%;
+}
+
+.current-weather-content {
+   position: relative;
+   z-index: 1;
+}
+
+ .current-weather-info {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+ }
+
+ .weather-main {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+}
 
 
 
