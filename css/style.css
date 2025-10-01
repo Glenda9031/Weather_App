@@ -437,6 +437,21 @@ body {
     gap: 2rem;
 }
 
+@media (width >= 64rem) {
+    .current-weather-info {
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+    }
+}
+
+.location-name {
+    font-family: var(--font-heading);
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+}
+
 
 
 
