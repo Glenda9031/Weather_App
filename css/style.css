@@ -452,8 +452,150 @@ body {
     margin-bottom: 0.5rem;
 }
 
+.location-date {
+    color: hsla(0, 0%, 100%, 0.8);
+    font-size: 1.125rem;
+}
 
+.weather-display {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+}
 
+.weather-icon {
+    font-size: 3.75rem;
+}
+
+.current-temp {
+    font-family: var(--font-heading);
+    font-size: clamp(3rem, 8vw, 4rem);
+    font-weight: 700;
+    line-height: 1;
+}
+
+.weather-condition {
+    color: hsla(0, 0%, 100%, 0.8);
+    font-size: 1.25rem;
+    margin-top: 0.5rem;
+}
+
+/* Weather Metrics */
+.weather-metrics {
+     border-radius: 1rem;
+}
+
+.metrics-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(10rem, 1fr));
+    gap: 1rem;
+}
+
+.metric-card {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem;
+    background-color: var(--secondary);
+    border-radius: 0.75rem;
+    transition: var(--transition);
+}
+
+.metric-card:hover {
+    transform: translateY(-0.125rem);
+    box-shadow: var(--shadow-md);    
+}
+
+.metric-icon {
+    font-size: 1.5rem;
+    width: 2.5rem;
+    height: 2.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--gradient-primary);
+    border-radius: 0.5rem;
+}
+
+.metric-label {
+    font-size: 0.875rem;
+    color: var(--muted-foreground);
+    margin-bottom: 0.25rem;
+}
+
+.metric-value {
+    font-size: 1.125rem;
+    font-weight: 600;
+    color: var(--foreground);
+}
+
+/* Daily Forecast Section */
+.daily-forecast {
+    border-radius: 1rem;
+}
+
+.forecast-title {
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+    color: var(--foreground);
+}
+
+.daily-forecast-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(8rem, 1fr));
+    gap: 1rem;
+}
+
+@media (width >= 64rem) {
+    .daily-forecast-grid {
+        grid-template-columns: repeat(7, 1fr);
+    }
+}
+
+.daily-forecast-item {
+    padding: 1rem;
+    background-color: var(--secondary);
+    border: .125rem solid transparent;
+    border-radius: 0.75rem;
+    text-align: center;
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.daily-forecast-item:hover {
+    background-color: var(--muted);
+}
+
+.daily-forecast-item.active {
+    border-color: var(--primary);
+    background-color: hsla(233, 67%, 56%, 0.2);
+}
+
+.daily-day {
+    font-size: 0.875rem;
+    color: var(--muted-foreground);
+    margin-bottom: 0.75rem;
+}
+
+.daily-icon {
+    font-size: 1.875rem;
+    margin-bottom: 0.75rem;
+}
+
+.daily-high {
+    font-size: 1.125rem;
+    font-weight: 600;
+    color: var(--foreground);
+    margin-bottom: 0.25rem;
+}
+
+.daily-low {
+    font-size: 0.875rem;
+    color: var(--muted-foreground);
+}
+
+/* HOURLY FORECAST SECTION */
 
 
 
