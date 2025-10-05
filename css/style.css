@@ -596,6 +596,70 @@ body {
 }
 
 /* HOURLY FORECAST SECTION */
+.hourly-forecast {
+    background-color: var(--card);
+    border-radius: 1rem;
+    padding: 1.5rem;
+    height: fit-content;
+}
+
+.hourly-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+}
+
+.daily-selector {
+    background-color: var(--secondary);
+    color: var(--foreground);
+    border: none;
+    border-radius: 0.5rem;
+    padding: 0.5rem 0.75rem;
+    font-size: 0.875rem;
+    cursor: pointer;
+}
+
+.hourly-forecast-list {
+    max-height: 14rem;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    scrollbar-width: thin;
+    scrollbar-color: var(--muted) var(--card);
+    scrollbar-gutter: stable;
+}
+
+.hourly-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.75rem;
+    background-color: var(--secondary);
+    border-radius: 0.5rem;
+    transition: var(--transition);
+}
+
+.hourly-item:hover {
+    background-color: var(--muted);
+}
+
+.hourly-left {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.hourly-icon {
+    font-size: 1.25rem;
+}
+
+.hourly-time {
+    font-size: 0.875rem;
+    color: var(--muted-foreground);
+}
+
 
 
 
