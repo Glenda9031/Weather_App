@@ -18,3 +18,37 @@ const unitsButton = document.getElementById('unitsButton');
 const unitsDropdown = document.getElementById('unitsDropdown');
 
 // Weather Display Elements
+const locationName = document.getElementById('locationName');
+const locationDate = document.getElementById('locationDate');
+const weatherIcon = document.getElementById('weatherIcon');
+const currentTemp = document.getElementById('currentTemp');
+const weatherCondition = document.getElementById('weatherCondition');
+const feelsLike = document.getElementById('feelsLike');
+const humidity = document.getElementById('humidity');
+const windSpeed = document.getElementById('windSpeed');
+const precipitation = document.getElementById('precipitation');
+const dailyForecastGrid = document.getElementById('dailyForecastGrid');
+const hourlyForecastList = document.getElementById('hourlyForecastList');
+const daySelector = document.getElementById('daySelector');
+
+// Initialize App
+document.addEventListener('DOMContentLoaded', function() {
+    initializeEventListeners();
+    // Load default location weather
+    handleSearch('Lagos');
+});
+
+function initializeEventListeners() {
+    // Search form
+    searchForm.addEventListener('submit', handleSearchSubmit);
+    // searchInput.addEventListener('input', handleSearchInput);
+    searchInput.addEventListener('input', (e) => {
+    const query = e.target.value.trim();
+    if (query.length > 2) {
+            showSuggestions(query);
+        } else {
+            hideSuggestions();
+        }
+    });
+
+    
