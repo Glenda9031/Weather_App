@@ -51,4 +51,14 @@ function initializeEventListeners() {
         }
     });
 
+    // Units toggle
+    unitsButton.addEventListener('click', toggleUnitsDropdown);
+    // Day selector
+    daySelector.addEventListener('change', handleDaySelect);
+
+    // Units buttons
+    const unitBtns = document.querySelectorAll('.unit-btn'),
+    unitBtns.forEach(btn => {
+        btn.addEventListener('click', handleUnitChange);
+    });
     
