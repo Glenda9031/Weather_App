@@ -72,6 +72,48 @@ function initializeEventListeners() {
         }
     });
 }
-    
+
+function handleSearchSubmit(e) {
+    e.preventDefault();
+    const query = searchInput.value.trim();
+    if (query) {
+        handleSearch(query);
+        hideSuggestions();
+    }
+}
+
+function handleSearchInput(e) {
+    const query = e.target.value.trim();
+
+    if (query.length > 2) {
+        showMuckSuggestions(query);
+    } else {
+        hideSuggestions();
+    }
+}
+
+// Fetch and display location suggestions
+async function showSuggestions(query) {
+    if (!query.trim()) {
+        hideSuggestions();
+        return;
+    }
+}
+
+try {
+    // Fetch suggestions from Open Meteo decoding API
+    const response = await fetch(
+        `https://geocoding-api.open-meteo.com/v1/search?name=${encodeURIComponent(query)}&count=5&language=en&format=json`
+    );
+    const data = await response.json();
+
+    suggestions.innerHTML = '';
+
+    if (!data.results || data.results.length === 0) {
+        hideSuggestions();
+        return;
+    }
+
+}
 
 
