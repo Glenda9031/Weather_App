@@ -61,4 +61,17 @@ function initializeEventListeners() {
     unitBtns.forEach(btn => {
         btn.addEventListener('click', handleUnitChange);
     });
+
+    // Close dropdowns when clicking outside
+     document.addEventListener('click', function(e) {
+        if (!unitsButton.contains(e.target) && !unitsDropdown.contains(e.target)) {
+            closeUnitsDropdown();
+        }
+        if (!suggestions.contains(e.target) && !searchInput.contains(e.target)) {
+            hideSuggestions();
+        }
+    });
+}
     
+
+
