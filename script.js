@@ -114,6 +114,49 @@ try {
         return;
     }
 
-}
+    data.results.forEach(result => {
+            const item = document.createElement('div');
+            item.className = 'suggestion-item';
+            item.innerHTML = `
+                <div class="suggestion-name">${result.name}</div>
+                <div class="suggestion-detail">${result.admin1 || ''}, ${result.country}</div>
+            `;
+            item.addEventListener('click', () => {
+                searchInput.value = result.name;
+                handleSearch(result.name);
+                hideSuggestions();
+            });
+            suggestions.appendChild(item);
+        });
 
+        suggestions.classList.add('show');
+    } catch (err) {
+        console.error("Error fetching suggestions:", err);
+        hideSuggestions();
+    }
+
+    function hideSuggestions() {
+    suggestions.classList.remove('show');
+    }
+
+    // Main function to handle search and fetch weather data
+    async function handleSearch(location) {
+        if (!location.trim() || isLoading) return;
+
+        setLoading(true);
+        hideError();
+
+        try {
+            // Get coordinates from location name
+            const geoResponse = await fetch(
+                `https://geocoding-api.open-meteo.com/v1/search?name=${encodeURIComponent(location)}&count=1&language=en&format=json`
+            );
+            const geoData = await geoResponse.json();
+
+            if (!geoData.results || geoData.results.length === 0) {
+                throw new Error('Location not found');
+            }
+            const { latitude, longitude, name, country } = geoData.results[0];
+        }
+    }
 
