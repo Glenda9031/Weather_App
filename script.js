@@ -157,6 +157,51 @@ try {
                 throw new Error('Location not found');
             }
             const { latitude, longitude, name, country } = geoData.results[0];
+
+            // Get weather data
+            const tempUnit = units === 'imperial' ? 'fahrenheit' : 'celsius';
+            const windUnit = units === 'imperial' ? 'mph' : 'kmh';
+            const precipUnit = precipitationUnit === 'inch' ? 'inch' : 'mm';
+
+            const weatherResponse = await fetch(
+                `https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&current=temperature_2m,relative_humidity_2m,apparent_temperature,precipitation,weather_code,wind_speed_10m&hourly=temperature_2m,weather_code,precipitation&daily=weather_code,temperature_2m_max,temperature_2m_min,precipitation_sum&temperature_unit=${tempUnit}&wind_speed_unit=${windUnit}&precipitation_unit=${precipUnit}&timezone=auto&forecast_days=7`
+            );
+            const weatherApiData = await weatherResponse.json();
+
+            // Trabsform API data
+            weatherData = transformWeatherData(weatherApiData, name, country);
+
+            displayWeatherData();
+            showWeatherContent();
+        } catch (err) {
+            showError(err.message || 'Failed to fetch weather data');
+        } finally {
+            setLoading(false);
+        }
+    }
+
+    function transformWeatherData(apiData, name, country) {
+    const temperatureUnit = units === 'imperial' ? '°F' : '°C';
+    const windUnit = units === 'imperial' ? 'mph' : 'km/h';
+    const precipUnit = precipitationUnit === 'inch' ? 'inch' : 'mm';
+    
+    return {
+        location: name,
+        country: country,
+        date: new Date().toLocaleDateString('en-US', { 
+            weekday: 'long', 
+            month: 'short', 
+            day: 'numeric', 
+            year: 'numeric' 
+        }),
+        temperature: Math.round(apiData.current.weather_code), temperatureUnit,
+        condition: getWeatherCondition(apiData.current.weather_code),
+        feelsLike: Math.round(apiData.current.apparent_temperature),
+        humidity: apiData.current.relative_humidity_2m,
+        windSpeed: Math.round(apiData.current.wind_speed_10m), windUnit,
+        precipitation: (apiData.current.precipitation !== null && apiData.current.precipitation !== undefined) ? precipitationUnit : precipUnit,
+        
+
         }
     }
 
