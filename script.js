@@ -194,14 +194,36 @@ try {
             day: 'numeric', 
             year: 'numeric' 
         }),
-        temperature: Math.round(apiData.current.weather_code), temperatureUnit,
+        temperature: Math.round(apiData.current.temperature_2m),
+        temperatureUnit,
         condition: getWeatherCondition(apiData.current.weather_code),
+        icon: getWeatherIcon(apiData.current.weather_code),
         feelsLike: Math.round(apiData.current.apparent_temperature),
         humidity: apiData.current.relative_humidity_2m,
-        windSpeed: Math.round(apiData.current.wind_speed_10m), windUnit,
-        precipitation: (apiData.current.precipitation !== null && apiData.current.precipitation !== undefined) ? precipitationUnit : precipUnit,
-        
+        windSpeed: Math.round(apiData.current.wind_speed_10m),
+        windUnit,
+        precipitation: (apiData.current.precipitation !== null && apiData.current.precipitation !== undefined) ? 
+            Number(apiData.current.precipitation.toFixed(1)) : 0,
+        precipitationUnit: precipUnit,
+        daily: apiData.daily.time.map((date, index) => ({
+            date,
+            day: index === 0 ? 'Today' : new Date(date).toLocaleDateString('en-US', { weekday: 'long' }),
+            high: Math.round(apiData.daily.temperature_2m_max[index]),
+            low: Math.round(apiData.daily.temperature_2m_min[index]),
+            condition: getWeatherCondition(apiData.daily.weather_code[index]),
+            icon: getWeatherIcon(apiData.daily.weather_code[index])
+        })),
+        hourly: apiData.hourly.time.map((time, index) => ({
+            time: new Date(time).toLocaleTimeString('en-US', { 
+                hour: 'numeric', 
+                hour12: true 
+            }),
+            date: new Date(time).toDateString(),
+            temperature: Math.round(apiData.hourly.temperature_2m[index]),
+            condition: getWeatherCondition(apiData.hourly.weather_code[index]),
+            icon: getWeatherIcon(apiData.hourly.weather_code[index])
+        }))
+    };
+}
 
-        }
-    }
 
