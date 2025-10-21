@@ -2,12 +2,12 @@
 
 // Global state
 let weatherData = null;
-let units = 'metric'; // 'metric' for Celsius, 'imperial' for Fahrenheit
-let precipitationUnit = 'mm'; // 'mm' for millimeters, 'in' for inches
+let units = 'metric'; // 'metric' or 'imperial'
+let precipitationUnit = 'mm'; // 'mm' or 'inch'
 let selectedDay = 0;
 let isLoading = false;
 
-// DOM Elements
+// DOM elements
 const searchForm = document.getElementById('searchForm');
 const searchInput = document.getElementById('searchInput');
 const searchButton = document.getElementById('searchButton');
@@ -17,7 +17,7 @@ const weatherContent = document.getElementById('weatherContent');
 const unitsButton = document.getElementById('unitsButton');
 const unitsDropdown = document.getElementById('unitsDropdown');
 
-// Weather Display Elements
+// Weather display elements
 const locationName = document.getElementById('locationName');
 const locationDate = document.getElementById('locationDate');
 const weatherIcon = document.getElementById('weatherIcon');
@@ -31,10 +31,10 @@ const dailyForecastGrid = document.getElementById('dailyForecastGrid');
 const hourlyForecastList = document.getElementById('hourlyForecastList');
 const daySelector = document.getElementById('daySelector');
 
-// Initialize App
+// Initialize app
 document.addEventListener('DOMContentLoaded', function() {
     initializeEventListeners();
-    // Load default location weather
+    // Load default location (Lagos)
     handleSearch('Lagos');
 });
 
@@ -51,19 +51,20 @@ function initializeEventListeners() {
         }
     });
 
+   
     // Units toggle
     unitsButton.addEventListener('click', toggleUnitsDropdown);
     // Day selector
     daySelector.addEventListener('change', handleDaySelect);
-
-    // Units buttons
-    const unitBtns = document.querySelectorAll('.unit-btn'),
+    
+    // Unit buttons
+    const unitBtns = document.querySelectorAll('.unit-btn');
     unitBtns.forEach(btn => {
         btn.addEventListener('click', handleUnitChange);
     });
-
+    
     // Close dropdowns when clicking outside
-     document.addEventListener('click', function(e) {
+    document.addEventListener('click', function(e) {
         if (!unitsButton.contains(e.target) && !unitsDropdown.contains(e.target)) {
             closeUnitsDropdown();
         }
@@ -84,9 +85,9 @@ function handleSearchSubmit(e) {
 
 function handleSearchInput(e) {
     const query = e.target.value.trim();
-
+    
     if (query.length > 2) {
-        showMuckSuggestions(query);
+        showMockSuggestions(query);
     } else {
         hideSuggestions();
     }
@@ -98,23 +99,22 @@ async function showSuggestions(query) {
         hideSuggestions();
         return;
     }
-}
 
-try {
-    // Fetch suggestions from Open Meteo decoding API
-    const response = await fetch(
-        `https://geocoding-api.open-meteo.com/v1/search?name=${encodeURIComponent(query)}&count=5&language=en&format=json`
-    );
-    const data = await response.json();
+    try {
+        // Fetch suggestions from Open-Meteo Geocoding API
+        const response = await fetch(
+            `https://geocoding-api.open-meteo.com/v1/search?name=${encodeURIComponent(query)}&count=5&language=en&format=json`
+        );
+        const data = await response.json();
 
-    suggestions.innerHTML = '';
+        suggestions.innerHTML = '';
 
-    if (!data.results || data.results.length === 0) {
-        hideSuggestions();
-        return;
-    }
+        if (!data.results || data.results.length === 0) {
+            hideSuggestions();
+            return;
+        }
 
-    data.results.forEach(result => {
+        data.results.forEach(result => {
             const item = document.createElement('div');
             item.className = 'suggestion-item';
             item.innerHTML = `
@@ -134,53 +134,56 @@ try {
         console.error("Error fetching suggestions:", err);
         hideSuggestions();
     }
+}
 
-    function hideSuggestions() {
+function hideSuggestions() {
     suggestions.classList.remove('show');
-    }
+}
 
-    // Main function to handle search and fetch weather data
-    async function handleSearch(location) {
-        if (!location.trim() || isLoading) return;
-
-        setLoading(true);
-        hideError();
-
-        try {
-            // Get coordinates from location name
-            const geoResponse = await fetch(
-                `https://geocoding-api.open-meteo.com/v1/search?name=${encodeURIComponent(location)}&count=1&language=en&format=json`
-            );
-            const geoData = await geoResponse.json();
-
-            if (!geoData.results || geoData.results.length === 0) {
-                throw new Error('Location not found');
-            }
-            const { latitude, longitude, name, country } = geoData.results[0];
-
-            // Get weather data
-            const tempUnit = units === 'imperial' ? 'fahrenheit' : 'celsius';
-            const windUnit = units === 'imperial' ? 'mph' : 'kmh';
-            const precipUnit = precipitationUnit === 'inch' ? 'inch' : 'mm';
-
-            const weatherResponse = await fetch(
-                `https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&current=temperature_2m,relative_humidity_2m,apparent_temperature,precipitation,weather_code,wind_speed_10m&hourly=temperature_2m,weather_code,precipitation&daily=weather_code,temperature_2m_max,temperature_2m_min,precipitation_sum&temperature_unit=${tempUnit}&wind_speed_unit=${windUnit}&precipitation_unit=${precipUnit}&timezone=auto&forecast_days=7`
-            );
-            const weatherApiData = await weatherResponse.json();
-
-            // Trabsform API data
-            weatherData = transformWeatherData(weatherApiData, name, country);
-
-            displayWeatherData();
-            showWeatherContent();
-        } catch (err) {
-            showError(err.message || 'Failed to fetch weather data');
-        } finally {
-            setLoading(false);
+// Main function to handle search and fetch weather data
+async function handleSearch(location) {
+    if (!location.trim() || isLoading) return;
+    
+    setLoading(true);
+    hideError();
+    
+    try {
+        // Get coordinates from location name
+        const geocodeResponse = await fetch(
+            `https://geocoding-api.open-meteo.com/v1/search?name=${encodeURIComponent(location)}&count=1&language=en&format=json`
+        );
+        const geocodeData = await geocodeResponse.json();
+        
+        if (!geocodeData.results || geocodeData.results.length === 0) {
+            throw new Error('Location not found');
         }
+        
+        const { latitude, longitude, name, country } = geocodeData.results[0];
+        
+        // Get weather data
+        const tempUnit = units === 'imperial' ? 'fahrenheit' : 'celsius';
+        const windUnit = units === 'imperial' ? 'mph' : 'kmh';
+        const precipUnit = precipitationUnit === 'inch' ? 'inch' : 'mm';
+        
+        const weatherResponse = await fetch(
+            `https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&current=temperature_2m,relative_humidity_2m,apparent_temperature,precipitation,weather_code,wind_speed_10m&hourly=temperature_2m,weather_code,precipitation&daily=weather_code,temperature_2m_max,temperature_2m_min,precipitation_sum&temperature_unit=${tempUnit}&wind_speed_unit=${windUnit}&precipitation_unit=${precipUnit}&timezone=auto&forecast_days=7`
+        );
+        const weatherApiData = await weatherResponse.json();
+        
+        // Transform API data
+        weatherData = transformWeatherData(weatherApiData, name, country);
+        
+        displayWeatherData();
+        showWeatherContent();
+        
+    } catch (err) {
+        showError(err.message || 'Failed to fetch weather data');
+    } finally {
+        setLoading(false);
     }
+}
 
-    function transformWeatherData(apiData, name, country) {
+function transformWeatherData(apiData, name, country) {
     const temperatureUnit = units === 'imperial' ? '°F' : '°C';
     const windUnit = units === 'imperial' ? 'mph' : 'km/h';
     const precipUnit = precipitationUnit === 'inch' ? 'inch' : 'mm';
@@ -225,5 +228,46 @@ try {
         }))
     };
 }
+
+function displayWeatherData() {
+    if (!weatherData) return;
+    
+    // Hide loading and show weather info
+    const loadingIndicator = document.getElementById('loadingIndicator');
+    const weatherInfo = document.getElementById('weatherInfo');
+    const currentWeatherEl = document.getElementById('currentWeather');
+    
+    if (loadingIndicator) loadingIndicator.style.display = 'none';
+    if (weatherInfo) {
+        weatherInfo.style.display = 'flex';
+        weatherInfo.style.justifyContent = 'space-between';
+        weatherInfo.style.alignItems = 'center';
+    }
+    if (currentWeatherEl) currentWeatherEl.classList.remove('loading-state');
+    
+    // Current weather
+    if (locationName) locationName.textContent = `${weatherData.location}, ${weatherData.country}`;
+    if (locationDate) locationDate.textContent = weatherData.date;
+    if (weatherIcon) weatherIcon.textContent = weatherData.icon;
+    if (currentTemp) currentTemp.textContent = `${weatherData.temperature}${weatherData.temperatureUnit}`;
+    if (weatherCondition) weatherCondition.textContent = weatherData.condition;
+    
+    // Weather metrics
+    if (feelsLike) feelsLike.textContent = `${weatherData.feelsLike}${weatherData.temperatureUnit}`;
+    if (humidity) humidity.textContent = `${weatherData.humidity}%`;
+    if (windSpeed) windSpeed.textContent = `${weatherData.windSpeed} ${weatherData.windUnit}`;
+    if (precipitation) precipitation.textContent = `${weatherData.precipitation} ${weatherData.precipitationUnit}`;
+    
+    // Daily forecast
+    displayDailyForecast();
+    
+    // Hourly forecast
+    displayHourlyForecast();
+    
+    // Update day selector
+    updateDaySelector();
+}
+
+
 
 
