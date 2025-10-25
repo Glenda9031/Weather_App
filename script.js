@@ -268,6 +268,48 @@ function displayWeatherData() {
     updateDaySelector();
 }
 
+function displayDailyForecast() {
+    dailyForecastGrid.innerHTML = '';
+    
+    weatherData.daily.forEach((day, index) => {
+        const item = document.createElement('button');
+        item.className = `daily-forecast-item ${selectedDay === index ? 'active' : ''}`;
+        item.innerHTML = `
+            <div class="daily-day">${day.day}</div>
+            <div class="daily-icon">${day.icon}</div>
+            <div class="daily-high">${day.high}${weatherData.temperatureUnit}</div>
+            <div class="daily-low">${day.low}${weatherData.temperatureUnit}</div>
+        `;
+        item.addEventListener('click', () => selectDay(index));
+        dailyForecastGrid.appendChild(item);
+    });
+}
+
+function displayHourlyForecast() {
+    hourlyForecastList.innerHTML = '';
+    
+    // weatherData.hourly.forEach((hour, index) => {
+        // Get the selected day's date
+    const selectedDate = new Date(weatherData.daily[selectedDay].date).toDateString();
+    
+    // Filter hourly data for the selected day
+    const selectedDayHours = weatherData.hourly.filter(hour => hour.date === selectedDate);
+
+    selectedDayHours.forEach((hour, index) => {
+        const item = document.createElement('div');
+        item.className = 'hourly-item';
+        item.innerHTML = `
+0            <div class="hourly-left">
+                 <div class="hourly-icon">${hourly.icon}</div>
+                 <div class="hourly-time">${hourly.time}</div>
+             </div>
+             
+             <div class="hourly-temp">${hourly.temperature}${weatherData.temperatureUnit}</div>`;
+
+        hourlyForecastList.appendChild(item);
+    })
+}
+
 
 
 
