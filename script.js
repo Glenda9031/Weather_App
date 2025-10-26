@@ -310,6 +310,74 @@ function displayHourlyForecast() {
     })
 }
 
+function updateDaySelector() {
+    daySelector.innerHTML = '';
+
+    weatherData.daily.forEach((day, index) => {
+        const option = document.createElement('option');
+        option.value = index;
+        option.textContent = day.day;
+        if (index === selectedDay) option.selected = true;
+        daySelector.appendChild(option);
+    });
+}
+
+function selectDay(index) {
+    selectedDay = dayIndex;
+    displayDailyForecast();
+    // day.Selector.value = index;
+    displayHourlyForecast();
+    daySelector.value = index;
+}
+
+function handleDaySelect(e) {
+    const dayIndex = parseInt(e.target.value);
+    selectDay(dayIndex);
+}
+
+function toggleUnitsDropdown() {
+    const unitsToggle = unitsButton.parentElement;
+    unitsToggle.classList.toggle('open');
+}
+
+function closeUnitsDropdown() {
+    const unitsToggle = unitsButton.parentElement;
+    unitsToggle.classList.remove('open');
+}
+
+function handleUnitChange(e) {
+    const unitType = e.target.dataset.unit;
+
+    // Update active state
+    const unitSection = e.target.closest('.unit-section');
+    const unitBtns = unitSection.querySelectorAll('.unit-btn');
+    unitBtns.forEach(btn => btn.classList.remove('active'));
+    e.target.classList.add('active');
+
+    // Update units and refetch if needed
+    let needsRefetch = false;
+
+    if (unitType === 'celsius' || unitType === 'fahrenheit') {
+        const newUnits = unitType === 'celsius' ? 'metric' : 'imperial';
+        if (newUnits !== units) {
+            units = newUnits;
+            needsRefetch = true;
+        }
+    } else if(unitType === 'mm' || unitType === 'inch') {
+        if (unitType !== precipitationUnit) {
+            precipitationUnit = unitType;
+            needsRefetch = true;
+        }
+    }
+
+    if (needsRefetch && weatherData) {
+        // Refetch data with new units
+        handleSearch(weatherData.location);
+    }
+
+    closeUnitsDropdown();
+}
+
 
 
 
