@@ -378,7 +378,100 @@ function handleUnitChange(e) {
     closeUnitsDropdown();
 }
 
+function setLoading(loading) {
+    isLoading = loading;
+    const searchText = searchButton.querySelector('.search-text');
+    const loadingText = searchButton.querySelector('.loading-text');
 
+    if (loading) {
+        searchText.style.display = 'none';
+        loadingText.style.display = 'inline';
+        searchButton.disabled = true;
+        searchInput.disabled = true;
+    } else {
+        searchText.style.display = 'inline';
+        loadingText.style.display = 'none';
+        searchButton.disabled = false;
+        searchInput.disabled = false;
+    }
+}
+
+function showError(message) {
+    errorMessage.textContent = message;
+    errorMessage.style.display = 'block';
+    weatherContent.style.display = 'none';
+}
+
+function hideError() {
+    errorMessage.style.display = 'none';
+}
+
+function showWeatherContent() {
+    hideError();
+    weatherContent.style.display = 'block';
+}
+
+// Weather condition mapping
+function getWeatherCondition(code) {
+    const conditions = {
+        0: 'Clear sky',
+        1: 'Mainly clear',
+        2: 'Partly cloudy',
+        3: 'Overcast',
+        45: 'Fog',
+        48: 'Depositing rime fog',
+        51: 'Light drizzle',
+        53: 'Moderate drizzle',
+        55: 'Dense drizzle',
+        61: 'Slight rain',
+        63: 'Moderate rain',
+        65: 'Heavy rain',
+        71: 'Slight snow',
+        73: 'Moderate snow',
+        75: 'Heavy snow',
+        77: 'Snow grains',
+        80: 'Slight rain showers',
+        81: 'Moderate rain showers',
+        82: 'Violent rain showers',
+        85: 'Slight snow showers',
+        86: 'Heavy snow showers',
+        95: 'Thunderstorm',
+        96: 'Thunderstorm with hail',
+        99: 'Thunderstorm with heavy hail'
+    };
+    return conditions[code] || 'Unknown';
+}
+
+// Weather icon mapping
+function getWeatherIcon(code) {
+    const icons = {
+        0: '☀️',
+        1: '🌤️',
+        2: '⛅',
+        3: '☁️',
+        45: '🌫️',
+        48: '🌫️',
+        51: '🌦️',
+        53: '🌦️',
+        55: '🌦️',
+        61: '🌧️',
+        63: '🌧️',
+        65: '🌧️',
+        71: '🌨️',
+        73: '🌨️',
+        75: '❄️',
+        77: '🌨️',
+        80: '🌦️',
+        81: '🌦️',
+        82: '🌧️',
+        85: '🌨️',
+        86: '❄️',
+        95: '⛈️',
+        96: '⛈️',
+        99: '⛈️'
+    };
+    return icons[code] || '❓';
+}
 
 
 
